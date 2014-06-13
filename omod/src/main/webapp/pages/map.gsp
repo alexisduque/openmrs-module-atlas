@@ -42,7 +42,7 @@ ui.includeCss("uicommons", "styleguide/index.css")
             else
                 jq(this).html("<i class ='icon-stop'></i> Disable information sending");
             
-        });
+        }); 
     });
 </script>
 <body data-spy="scroll" data-target="#menu">
@@ -55,7 +55,7 @@ ui.includeCss("uicommons", "styleguide/index.css")
             <li><a href="#body-wrapper">Manage markers</a></li>
         </ul>
         <div id="home">
-            <iframe src="http://107.170.156.44?module=1" name="atlas" id="atlas"></iframe>
+            <iframe src="http://localhost/openmrs-contrib-atlas/public/module?module=${data.id}" name="atlas" id="atlas"></iframe>
         </div>
         <div id="body-wrapper" class="style-guide"> 
             <aside id="menu-container">
@@ -133,12 +133,18 @@ ui.includeCss("uicommons", "styleguide/index.css")
                     <h2>Configuration sharing</h2>
                     <section>
                         <fieldset>
-                            <legend>Sharing</legend>
-                            <br>
+                            <legend>Sharing</legend><br>
+                            <em>Select information you want to send.</em><br><br>
                             <input type="checkbox"></input>
-                            <label><b>Share my system configuration with OpenMRS</b>
-                                <em><small>(wi  ll not be shown on the Atlas).</small></em>
-                            </label><br>
+                            <label>Share numbers of <b>patients</b></label><br>
+                            <input type="checkbox"></input>
+                            <label>Share number of <b>encounters</b></label><br>
+                            <input type="checkbox"></input>
+                            <label>Share number of <b>observations</b></label><br>
+                            <input type="checkbox"></input>
+                            <label>Share my <b>system configuration</b> with OpenMRS</b>
+                                <em><small>(will not be shown on the Atlas).</small></em>
+                            </label><br><br>
                             <small><a href=""><i class="icon-info-sign small"></i>  What will be send ?</a></small>
                         </fieldset>
                     </section>
