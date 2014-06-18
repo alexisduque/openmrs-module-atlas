@@ -1,7 +1,10 @@
 <%
 ui.decorateWith("appui", "standardEmrPage")
 ui.includeCss("uicommons", "styleguide/index.css")
+ui.includeJavascript("atlas", "atlas2.js")
 %>
+<script src="/${ contextPath }/dwr/interface/DWRAtlasService.js"></script>
+<script src="/${ contextPath }/dwr/engine.js"></script>
 <script type="text/javascript">
     var jq = jQuery;
 </script>
@@ -34,15 +37,6 @@ ui.includeCss("uicommons", "styleguide/index.css")
     ];
     jq(function() {
         jq("#tabs").tabs();
-        jq("#activate").click(function() {
-        
-            jq(this).toggleClass("confirm cancel");
-            if (jq(this).hasClass("confirm"))
-               jq(this).html("<i class ='icon-upload-alt'></i> Enable information sending");
-            else
-                jq(this).html("<i class ='icon-stop'></i> Disable information sending");
-            
-        }); 
     });
 </script>
 <body data-spy="scroll" data-target="#menu">
@@ -51,16 +45,16 @@ ui.includeCss("uicommons", "styleguide/index.css")
     </h1>
     <div id="tabs">
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#body-wrapper">Manage markers</a></li>
+            <li><a href="#home">${ ui.message("atlas.home") }</a></li>
+            <li><a href="#body-wrapper">${ ui.message("atlas.manage") }</a></li>
         </ul>
         <div id="home">
-            <iframe src="http://localhost/openmrs-contrib-atlas/public/module?module=${data.id}" name="atlas" id="atlas"></iframe>
+            <iframe src="http://localhost/openmrs-contrib-atlas/public/module?uuid=${data.id}" name="atlas" id="atlas"></iframe>
         </div>
         <div id="body-wrapper" class="style-guide"> 
             <aside id="menu-container">
                 <section id="menu" >
-                    <h3>Configuration</h3>
+                    <h3>${ ui.message("atlas.configuration") }</h3>
                     <ul id="menu-list" class="nav">
 <!--
                         <li>
@@ -103,12 +97,15 @@ ui.includeCss("uicommons", "styleguide/index.css")
                         <fieldset>
                             <legend>Send Information</legend>
                             <p><br>
-                                <input type="checkbox"></input>
+                                <input type="checkbox" id="atlas-disclaimer"
+                                    <% if (data.usageDisclamerAccepted) { %>
+                                checked="checked"
+                                    <% } %>
+                                </input>
                                 <label><b>Send information periodically</b></label>
                             </p>
-                            <em>I understand that this information will be periodically
-                                sent to OpenMRS<br><small>(Identifiable patient information 
-                                is NEVER sent to OpenMRS)</small>
+                            <em>${ ui.message("atlas.userAgreement") }<br><small>
+                                ${ ui.message("atlas.userAgreementParanthesis") }</small>
                             </em><br>
 <!--
                             <span class="select-arrow">
@@ -121,9 +118,21 @@ ui.includeCss("uicommons", "styleguide/index.css")
 -->
                             <p>
                                 <br>
-                                <a id="activate" class="button confirm">
+                                <a id="atlas-btnDisabled"
+                                <% if (data.moduleEnabled == true) { %>
+                                    style="display: none" 
+                                 <% } %>
+                                 class="button confirm">
                                     <i class ="icon-upload-alt"></i>
                                     Enable information sending
+                                </a>
+                                <a id="atlas-btnEnabled"
+                                <% if (data.moduleEnabled == false) { %>
+                                    style="display: none" 
+                                 <% } %>
+                                 class="button cancel">
+                                    <i class ='icon-stop'></i> 
+                                    Disable information sending
                                 </a>
                             </p>
                         </fieldset>
@@ -135,13 +144,29 @@ ui.includeCss("uicommons", "styleguide/index.css")
                         <fieldset>
                             <legend>Sharing</legend><br>
                             <em>Select information you want to send.</em><br><br>
-                            <input type="checkbox"></input>
+                            <input type="checkbox" id="atlas-includeNbPatients"
+                                <% if (data.includeNumberOfPatients) { %>
+                                    checked="checked"
+                                <% } %>
+                            ></input>
                             <label>Share numbers of <b>patients</b></label><br>
-                            <input type="checkbox"></input>
+                            <input type="checkbox" id="atlas-includeNbEncounters"
+                                <% if (data.includeNumberOfEncounters) { %>
+                                    checked="checked"
+                                <% } %>
+                            ></input>
                             <label>Share number of <b>encounters</b></label><br>
-                            <input type="checkbox"></input>
+                            <input type="checkbox" id="atlas-includeNbObs"
+                                <% if (data.includeNumberOfObservations) { %>
+                                    checked="checked"
+                                <% } %>
+                            ></input>
                             <label>Share number of <b>observations</b></label><br>
-                            <input type="checkbox"></input>
+                            <input type="checkbox" id="atlas-includeSysConf"
+                                <% if (data.includeSystemConfiguration) { %>
+                                    checked="checked"
+                                <% } %>
+                            ></input>
                             <label>Share my <b>system configuration</b> with OpenMRS</b>
                                 <em><small>(will not be shown on the Atlas).</small></em>
                             </label><br><br>

@@ -7,18 +7,10 @@
 package org.openmrs.module.atlas.page.controller;
 
 import org.openmrs.api.context.Context;
-import org.openmrs.module.Extension;
-import org.openmrs.module.Extension.MEDIA_TYPE;
-import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.atlas.AtlasData;
 import org.openmrs.module.atlas.AtlasService;
-import org.openmrs.module.web.FormEntryContext;
-import org.openmrs.module.web.extension.FormEntryHandler;
-import org.openmrs.ui.framework.SimpleObject;
-import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
-import org.openmrs.util.OpenmrsUtil;
-import org.springframework.web.bind.annotation.RequestParam;
+
 /**
  *
  * @author alex
