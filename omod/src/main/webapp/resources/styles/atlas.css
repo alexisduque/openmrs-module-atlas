@@ -22,6 +22,9 @@
 }
 .atlas-show-dialog {
     margin-top: 10px;
-    color: #007fff;
     font-size: 70%;
+}
+.text {
+    color: #1F1E3A;
+    margin-bottom: 10px;
 }

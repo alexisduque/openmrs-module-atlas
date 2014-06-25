@@ -12,19 +12,31 @@ ui.includeCss("atlas", "atlas.css")
     { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
         { label: "${ ui.message("atlas.title")}"}
     ];
+    var connected;
+    function updateModulefromServer() {
+        connected = isModuleConnect("https://atlas.local/module/auth?uuid=${data.id}");
+    }
+    function receiveMessage(event){
+      updateModulefromServer();
+      addEventListener("message", receiveMessage, false);
+    }
+    jq(document).ready(function() {
+        addEventListener("message", receiveMessage, false);
+        updateModulefromServer();
+    });
 </script>
 <body>
     <div id="home">
-        <iframe src="http://localhost/openmrs-contrib-atlas/public/module?uuid=${data.id}" name="atlas" id="atlas"></iframe>
-        <div class="note-container">
-            <div class="note" id="disabled" style="background-color: rgba(255, 0, 0, 0.53);  
+        <iframe src="https://atlas.local/module?uuid=${data.id}" name="atlas" id="atlas"></iframe>
+        <div class="note-container" id="module-control" style="display:none">
+            <div class="note" id="disabled" style="background-color: rgba(255, 95, 95, 0.73);  
             <% if (data.moduleEnabled) {%> display: none; <% } %> margin-left: -100px;">
                 <div class="text">
                     <p><strong>${ ui.message("atlas.disabled")}</strong></p>
                     <br><p><strong>${ ui.message("atlas.autoUpdates")}</strong></p>
                     <div id="disabled-button" class="btn-group btn-toggle"> 
                         <button class="btn btn-xs btn-danger active">${ ui.message("atlas.buttonDisabled")}</button>
-                        <button class="btn btn-xs btn-default">${ ui.message("atlas.buttonEnabled")}</button>
+                        <button class="btn btn-xs btn-default active">${ ui.message("atlas.buttonEnabled")}</button>
                     </div>
                 </div>
                 <div class ="atlas-show-dialog"><i class="icon-info-sign small" style="vertical-align: middle"></i> ${ ui.message("atlas.dataSend")}</div>
@@ -35,11 +47,18 @@ ui.includeCss("atlas", "atlas.css")
                 <div class="text">
                     <p><strong>${ ui.message("atlas.autoUpdates")}</strong></p>
                     <div id="enabled-button"class="btn-group btn-toggle"> 
-                        <button class="btn btn-xs btn-default">${ ui.message("atlas.buttonDisabled")}</button>
+                        <button class="btn btn-xs btn-default active">${ ui.message("atlas.buttonDisabled")}</button>
                         <button class="btn btn-xs btn-success active">${ ui.message("atlas.buttonEnabled")}</button>
                     </div>
                 </div>
                 <div class="atlas-show-dialog"><i class="icon-info-sign small" style="vertical-align: middle"></i> ${ ui.message("atlas.dataSend")}</div>
+            </div>
+        </div>
+        <div class="note-container" style="display:none" id="unlinked">
+            <div class="note" style="background-color: rgba(255, 95, 95, 0.73); margin-left: -100px;">
+                <div class="text">
+                    <p><strong>${ ui.message("atlas.unlinked")}</strong></p>
+                </div>
             </div>
         </div>
     </div>
