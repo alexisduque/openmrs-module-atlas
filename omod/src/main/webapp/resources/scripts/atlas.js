@@ -29,7 +29,7 @@ function isModuleConnect(url) {
     $j.ajax({
         url: url,
         type: "GET",
-        dataType: "json",
+        dataType: "jsonp",
     })
     .done(function(response) {
         auth = response;
@@ -44,9 +44,10 @@ function isModuleConnect(url) {
         }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-        $j('#enabled').hide();
-        $j('#disabled').hide();
-        alert("Module is not connnected - Please try again ! - ");
+        $j('#module-control').hide();
+        $j('#unlinked').hide();
+        if (jqXHR.status !== 401)
+            alert("Module is not connnected - Please try again ! - ");
         return (connected = false);
     });
 }
@@ -94,8 +95,8 @@ function sendPostCommandToServer() {
     getIsDirtyFromServer();
 }
 
-function disableAtlasModuleOnServer(cbDisclamerIsChecked) {
-    DWRAtlasService.disableAtlasModule(cbDisclamerIsChecked);
+function disableAtlasModuleOnServer() {
+    DWRAtlasService.disableAtlasModule();
 }
 
 function setIncludeSystemConfigurationOnServer(value) {
@@ -132,7 +133,7 @@ function initializeAtlas() {
         $divDisabled.show();
         $divEnabled.hide();
         //$updateAtlasNowLink.hide();
-        disableAtlasModuleOnServer(true);
+        disableAtlasModuleOnServer();
         event.preventDefault();
     });
 

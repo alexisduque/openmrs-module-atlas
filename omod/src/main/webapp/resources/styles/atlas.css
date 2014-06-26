@@ -1,14 +1,16 @@
+#home {
+    position: relative;
+}
 #atlas {
     min-height: 600px;
     max-height: 1000px;
     width: 100%;
     overflow:hidden;
-    z-index: 0;
 }
 .note-container {
     position:absolute!important; 
-    z-index: 1;
-    bottom:25px;
+    z-index: 2;
+    bottom:10px;
     left: 50%; 
     margin-left: -200px;
     max-width: 475px;
