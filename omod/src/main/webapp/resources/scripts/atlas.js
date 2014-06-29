@@ -1,12 +1,5 @@
 var $j = jQuery.noConflict();
-var containerEdit;
 var dialog;
-
-$j(document).ready(function() {
-    containerEdit = document.getElementById('content');
-    initializeAtlas();
-    initializeDialog();
-});
 
 function initializeDialog() {
     dialog = emr.setupConfirmationDialog({
@@ -99,23 +92,6 @@ function disableAtlasModuleOnServer() {
     DWRAtlasService.disableAtlasModule();
 }
 
-function setIncludeSystemConfigurationOnServer(value) {
-    DWRAtlasService.setIncludeSystemConfiguration(value);
-    getIsDirtyFromServer();
-}
-function setIncludeNbObs(value) {
-    DWRAtlasService.setIncludeNbObs(value);
-    getIsDirtyFromServer();
-}
-function setIncludeNbEncounters(value) {
-    DWRAtlasService.setIncludeNbEncounters(value);
-    getIsDirtyFromServer();
-}
-function setIncludeNbPatients(value) {
-    DWRAtlasService.setIncludeNbPatients(value);
-    getIsDirtyFromServer();
-}
-
 function getJsonDataFromServer() {
     DWRAtlasService.getJsonData(getJsonDataFromServerCallback);
 }
@@ -128,11 +104,9 @@ function initializeAtlas() {
     $divEnabled = $j('#enabled');
     $divDisabled = $j('#disabled');
     
-    //$updateAtlasNowLink = $j('#atlas-gutter-updateAtlasNowLink');
     $btnEnabled.click(function(event) {
         $divDisabled.show();
         $divEnabled.hide();
-        //$updateAtlasNowLink.hide();
         disableAtlasModuleOnServer();
         event.preventDefault();
     });
@@ -140,15 +114,21 @@ function initializeAtlas() {
     $btnDisabled.click(function(event) {
         $divEnabled.show();
         $divDisabled.hide();
-        //$updateAtlasNowLink.hide();
         enableAtlasModuleOnServer();
         event.preventDefault();
     });
-
-    //$updateAtlasNowLink.click(function (event) {
-    //	sendPostCommandToServer();
-    // comment the next line if you use the DWR service to get isDirty value
-    //$updateAtlasNowLink.hide();
-    //	event.preventDefault();
-    //});
+}
+function initializeWhatWillBeSentModalWindow() {
+	var titleText = $j("#atlas-gutter-sentInfoTitle").text();
+	var $whatWillBeSendWindow = $j("#atlas-gutter-sentInfo");
+	$whatWillBeSendWindow.dialog({ autoOpen: false
+        , modal: true
+        , width: 500
+        , title : titleText
+       });
+ 	
+    $j(".atlas-show-dialog").click(function() {
+        getJsonDataFromServer();
+        $whatWillBeSendWindow.dialog('open');
+    });
 }

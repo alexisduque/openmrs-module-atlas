@@ -1,20 +1,21 @@
-#atlas-map {
-   	width:95%;
-   	height:550px;
-   	float: left;
-   	margin-left: 10px;
-    margin-bottom: 5px;
+#home {
+    position: relative;
+}
+#atlas {
+    min-height: 600px;
+    max-height: 1000px;
+    width: 100%;
+    overflow:hidden;
 }
 .note-container {
-    position:absolute!important;
-    bottom:30px;
+    position:absolute!important; 
+    z-index: 2;
+    bottom:10px;
     left: 50%; 
-    margin-left: -175px;
+    margin-left: -200px;
     max-width: 475px;
-    min-width: 300px;
 }
 .note-container .note {
-    padding: 10px;
     border-radius: 30px!important;
     border-color: #363463;
     border-style: solid;
@@ -28,7 +29,4 @@
 .text {
     color: #1F1E3A;
     margin-bottom: 10px;
-}
-.btn-group{
-    z-index: 0;
 }
